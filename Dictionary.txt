@@ -34,3 +34,4 @@ abcdefghijklmnopqrstuvwxyz
 ABCDEFGHIJKLMNOPQRSTUVWXYZ
 AbCdEfGhIjKlMnOpQrStUvWxYz
 aBcDeFgHiJkLmNoPqRsTuVwXyZ
+AMAZINI
