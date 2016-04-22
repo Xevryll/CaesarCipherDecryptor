@@ -4,49 +4,30 @@ import java.io.*;
 //Code goes through 0 bitshift (default string) to 25 bitshift (in that order)
 //Goes through Caesar Cipher and decrpyts it and prints the correct value
 
+//Decrypted Strings: output.txt
+//Dictionary File: Dictionary.txt
+
 public class Decryption {
-	private File file = new File("string.txt");
-	private ArrayList<String> words = new ArrayList<String>();
-	private ArrayList<String> confirmed = new ArrayList<String>();
-	private ArrayList<String> arr = new ArrayList<String>();
+	private static File file;
+	private static ArrayList<String> words = new ArrayList<String>();
+	private static ArrayList<String> confirmed = new ArrayList<String>();
+	private static ArrayList<String> arr = new ArrayList<String>();
+	private static StringDecryptor decryptor = new StringDecryptor();
 	
-	public void decodeString(String str) {
-		String cipher = "";
-		for(int in = 26; in>0; in--) {
-			int num = in;
-			for(int i = 0; i < str.length(); i++) {
-				num = in;
-				String g = "" + str.charAt(i);
-				if(g.equals("") || g.equals(" ")) {
-					cipher += " ";
-					continue;
-				}
-				char c = str.charAt(i);
-				int max = 0;
-				char defChar;
-				if(c>='a' && c<='z'){
-					max = 122;
-					defChar = 'a';
-				} else {
-					max = 90;
-					defChar = 'A';
-				}
-				
-				char testing = c;
-				for(int example=in; example>0; example--) {
-					if((int) testing == max) {
-						testing = defChar;
-					} else {
-						testing+=1;
-					}
-						
-				}
-				cipher += testing;
-				num = in;
-			}
-			arr.add(cipher);
-			cipher = "\n";
+	public static void main(String args[]) {
+		try {
+			file = new File(args[0]);
+		} catch (Exception e) {
+			System.out.println("File name not specified, please do");
+			System.out.println("java Decryption file.txt");
+			System.exit(0);
 		}
+		Decryption dec = new Decryption();
+		dec.readLinesFromEncyptedFile();
+		dec.pullFromDictionary();
+		dec.checkDecryptedStrings();
+		dec.outputConfirmedStrings();
+		dec.debugOutput();
 	}
 	
 	public void pullFromDictionary() {
@@ -58,7 +39,7 @@ public class Decryption {
 			}
 			brc.close();
 		} catch (Exception e) {
-			System.out.println("Something went wrong...");
+			System.out.println("Something went wrong...d");
 		}
 	}
 	
@@ -66,17 +47,18 @@ public class Decryption {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(file));
 			String line = "";
-			String cipher = "";
 			while ((line = br.readLine()) != null) {
-				decodeString(line);
+				for(String g : decryptor.decryptString(line)) {
+					arr.add(g);
+				}
 			}
 			br.close();
 		} catch (Exception e) {
-			System.out.println("Something went wrong...");
+			System.out.println("File not found");
 		}
 	}
 	
-	public void checkEncryptedStrings() {
+	public void checkDecryptedStrings() {
 		for(int i = 0; i<arr.size(); i++) {
 			String g = arr.get(i);
 			for(String a : words) {
@@ -95,9 +77,16 @@ public class Decryption {
 	}
 	
 	public void outputConfirmedStrings() {
-		for(String g : confirmed) {
-			g = g.replaceAll("\n", "");
-			System.out.println("String Decoded: " + g);
+		try {
+			PrintWriter pw = new PrintWriter(new FileWriter("output.txt"));
+			for(String g : confirmed) {
+				g = g.replaceAll("\n", "");
+				pw.write(g);
+				pw.write("\n");
+			}
+			pw.close();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -113,14 +102,5 @@ public class Decryption {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public static void main(String args[]) {
-		Decryption dec = new Decryption();
-		dec.readLinesFromEncyptedFile();
-		dec.pullFromDictionary();
-		dec.checkEncryptedStrings();
-		dec.outputConfirmedStrings();
-		dec.debugOutput();
 	}
 }
