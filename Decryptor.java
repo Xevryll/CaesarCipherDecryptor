@@ -1,5 +1,5 @@
 import java.util.*;
 
-public abstract interface Decryptor {
+public interface Decryptor {
 	ArrayList<String> decryptString(String str);
 }

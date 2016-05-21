@@ -1,6 +1,7 @@
 import java.util.*;
 
-public class StringDecryptor implements Decryptor {
+public class StringDecryptor implements Decryptor{
+	
 	@Override
 	public ArrayList<String> decryptString(String str) {
 		ArrayList<String> arr = new ArrayList<String>();
