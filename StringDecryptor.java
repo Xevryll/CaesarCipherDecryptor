@@ -7,9 +7,7 @@ public class StringDecryptor implements Decryptor{
 		ArrayList<String> arr = new ArrayList<String>();
 		String cipher = "";
 		for(int in = 26; in>0; in--) {
-			int num = in;
 			for(int i = 0; i < str.length(); i++) {
-				num = in;
 				String g = "" + str.charAt(i);
 				if(g.equals("") || g.equals(" ")) {
 					cipher += " ";
@@ -36,7 +34,6 @@ public class StringDecryptor implements Decryptor{
 						
 				}
 				cipher += testing;
-				num = in;
 			}
 			arr.add(cipher);
 			cipher = "\n";
